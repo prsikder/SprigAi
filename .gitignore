@@ -38,3 +38,6 @@ db.sqlite3
 /pdf/
 /generate_lab_report.py
 /scripts/_nb_extract.txt
+
+# Vercel local configuration
+.vercel/

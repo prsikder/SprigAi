@@ -4,16 +4,30 @@ Django settings for SprigAI - Smart Crop Guardian.
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
+IS_VERCEL = os.getenv("VERCEL") == "1"
 
 # --------------------------------------------------------------------
 # Core / Security
 # --------------------------------------------------------------------
 SECRET_KEY = os.getenv("SECRET_KEY", "dev-only-insecure-key-change-me")
-DEBUG = os.getenv("DEBUG", "True") == "True"
+if IS_VERCEL and SECRET_KEY in {"", "dev-only-insecure-key-change-me", "change-this-to-a-long-random-secret-key"}:
+    raise ImproperlyConfigured("Set a unique SECRET_KEY in Vercel environment variables.")
+DEBUG = os.getenv("DEBUG", "False" if IS_VERCEL else "True").lower() in {"true", "1", "yes"}
 ALLOWED_HOSTS = [h.strip() for h in os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",") if h.strip()]
+CSRF_TRUSTED_ORIGINS = [value.strip() for value in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if value.strip()]
+if IS_VERCEL:
+    for name in ("VERCEL_URL", "VERCEL_PROJECT_PRODUCTION_URL"):
+        host = os.getenv(name)
+        if host:
+            ALLOWED_HOSTS.append(host)
+            CSRF_TRUSTED_ORIGINS.append(f"https://{host}")
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
 # --------------------------------------------------------------------
 # Applications
@@ -96,6 +110,11 @@ DATABASES = {
         },
     }
 }
+DATABASES["default"]["CONN_MAX_AGE"] = 0
+if os.getenv("DB_SSL_CA"):
+    DATABASES["default"]["OPTIONS"]["ssl"] = {"ca": os.environ["DB_SSL_CA"], "check_hostname": True}
+elif os.getenv("DB_SSL", "False").lower() in {"true", "1", "yes"}:
+    DATABASES["default"]["OPTIONS"]["ssl"] = {"check_hostname": True}
 
 # --------------------------------------------------------------------
 # Auth
@@ -156,7 +175,7 @@ USE_TZ = True
 # --------------------------------------------------------------------
 # Static & Media
 # --------------------------------------------------------------------
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STORAGES = {
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
@@ -229,6 +248,12 @@ LOGGING = {
         "sprigai": {"handlers": ["console", "file"], "level": "DEBUG", "propagate": False},
     },
 }
-os.makedirs(BASE_DIR / "logs", exist_ok=True)
+if IS_VERCEL:
+    LOGGING["handlers"].pop("file")
+    LOGGING["root"]["handlers"] = ["console"]
+    for config in LOGGING["loggers"].values():
+        config["handlers"] = ["console"]
+else:
+    os.makedirs(BASE_DIR / "logs", exist_ok=True)
 
 MESSAGE_TAGS = {}

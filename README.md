@@ -1,5 +1,9 @@
 # SprigAI - Smart Crop Guardian
 
+For Vercel deployment with PyMySQL, see [DEPLOYMENT.md](DEPLOYMENT.md).
+`requirements.txt` installs the web application; use
+`pip install -r requirements-ml.txt` for the full local ML environment.
+
 An AI-powered smart agriculture platform for Bangladesh farmers, combining **crop
 recommendation**, **fertilizer recommendation**, **crop disease detection**, **soil
 classification**, and a **farmer AI chatbot** into one Django + MySQL web application.
