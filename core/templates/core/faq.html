@@ -1,0 +1,64 @@
+{% extends "core/base.html" %}
+{% block title %}FAQ &mdash; {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="sprig-section">
+  <div class="container" style="max-width: 850px;">
+    <span class="section-label">FAQ</span>
+    <h1 class="mt-2 mb-5">Frequently asked questions</h1>
+
+    <div class="accordion" id="faqAccordion">
+      {% for q, a in faqs %}{% endfor %}
+      <div class="accordion-item mb-3" style="border-radius: var(--sprig-radius); overflow:hidden; border:1px solid var(--sprig-line);">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+            How accurate are the AI predictions?
+          </button>
+        </h2>
+        <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body text-muted">Each model is trained and validated on agricultural datasets, but no AI system is perfect. Predictions should support &mdash; not replace &mdash; guidance from local agricultural experts, especially for pesticide or chemical decisions.</div>
+        </div>
+      </div>
+      <div class="accordion-item mb-3" style="border-radius: var(--sprig-radius); overflow:hidden; border:1px solid var(--sprig-line);">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+            What image formats can I upload for disease or soil detection?
+          </button>
+        </h2>
+        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body text-muted">JPG, JPEG, PNG and WEBP images are supported, up to the configured maximum file size. Images are validated before AI processing.</div>
+        </div>
+      </div>
+      <div class="accordion-item mb-3" style="border-radius: var(--sprig-radius); overflow:hidden; border:1px solid var(--sprig-line);">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+            Do I need to fill in Nitrogen, Phosphorus and Potassium for fertilizer recommendation?
+          </button>
+        </h2>
+        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body text-muted">No. NPK fields are optional. If left blank, SprigAI safely fills in a reasonable default value so your recommendation is never blocked.</div>
+        </div>
+      </div>
+      <div class="accordion-item mb-3" style="border-radius: var(--sprig-radius); overflow:hidden; border:1px solid var(--sprig-line);">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+            Do I need an account to use SprigAI?
+          </button>
+        </h2>
+        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body text-muted">You can browse the landing page, features, and FAQ without an account. To run any AI prediction and save your history, you'll need to sign up for a free account.</div>
+        </div>
+      </div>
+      <div class="accordion-item mb-3" style="border-radius: var(--sprig-radius); overflow:hidden; border:1px solid var(--sprig-line);">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+            Is my prediction history private?
+          </button>
+        </h2>
+        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body text-muted">Yes. Each user can only see their own prediction history. Administrators can view aggregate usage statistics but not without appropriate admin access.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

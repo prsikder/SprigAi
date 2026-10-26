@@ -1,0 +1,49 @@
+{% extends "core/base.html" %}
+{% block title %}Disease Detection History &mdash; {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="sprig-section">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+      <div>
+        <span class="section-label">History</span>
+        <h1 class="mt-2 mb-0">Disease Detection History</h1>
+      </div>
+      <a href="{% url 'disease_detection:form' %}" class="btn btn-sprig-primary"><i class="bi bi-plus-circle me-1"></i> New Detection</a>
+    </div>
+
+    <form method="get" class="mb-3">
+      <div class="input-group" style="max-width:360px;">
+        <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Search by disease">
+        <button class="btn btn-sprig-outline" type="submit"><i class="bi bi-search"></i></button>
+      </div>
+    </form>
+
+    <div class="row g-4">
+      {% for r in page_obj %}
+      <div class="col-md-4">
+        <div class="sprig-card">
+          <img src="{{ r.image.url }}" style="height:160px; width:100%; object-fit:cover; border-radius: var(--sprig-radius) var(--sprig-radius) 0 0;">
+          <div class="card-body">
+            <h6 class="mb-1">{{ r.predicted_disease }}</h6>
+            <p class="small text-muted mb-2">{{ r.created_at|date:"d M Y, H:i" }} &middot; {{ r.confidence }}%</p>
+            <a href="{% url 'disease_detection:result' r.pk %}" class="small">View Details <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center text-muted py-5">No predictions yet. <a href="{% url 'disease_detection:form' %}">Detect your first one</a>.</div>
+      {% endfor %}
+    </div>
+
+    {% if page_obj.paginator.num_pages > 1 %}
+    <nav class="mt-4">
+      <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}<li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ q }}">Previous</a></li>{% endif %}
+        <li class="page-item disabled"><span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
+        {% if page_obj.has_next %}<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ q }}">Next</a></li>{% endif %}
+      </ul>
+    </nav>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

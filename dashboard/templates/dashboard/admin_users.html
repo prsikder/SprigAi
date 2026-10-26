@@ -1,0 +1,37 @@
+{% extends "core/base.html" %}
+{% block title %}Manage Users &mdash; {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="sprig-section">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <span class="section-label">Administration</span>
+        <h1 class="mt-2 mb-0">Manage Users</h1>
+      </div>
+      <a href="{% url 'dashboard:admin_home' %}" class="btn btn-sprig-outline btn-sm"><i class="bi bi-arrow-left me-1"></i>Back to Dashboard</a>
+    </div>
+    <div class="sprig-card">
+      <div class="table-responsive">
+        <table class="table table-sprig mb-0 align-middle">
+          <thead><tr><th>Username</th><th>Email</th><th>District</th><th>Role</th><th>Joined</th><th>Status</th></tr></thead>
+          <tbody>
+            {% for u in users %}
+            <tr>
+              <td>{{ u.username }}</td>
+              <td>{{ u.email }}</td>
+              <td>{{ u.district|default:"-" }}</td>
+              <td><span class="badge-soft-green">{{ u.get_role_display }}</span></td>
+              <td>{{ u.created_at|date:"d M Y" }}</td>
+              <td>{% if u.is_active %}<span class="badge-soft-green">Active</span>{% else %}<span class="badge bg-secondary">Inactive</span>{% endif %}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6" class="text-center text-muted py-4">No users found.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="small text-muted mt-3">For full user management (activate/deactivate, permissions, password reset), use the <a href="/admin/">Django Admin</a>.</p>
+  </div>
+</section>
+{% endblock %}

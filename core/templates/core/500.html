@@ -1,0 +1,12 @@
+{% extends "core/base.html" %}
+{% block title %}Server Error &mdash; {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="sprig-section text-center">
+  <div class="container">
+    <div class="icon-badge mx-auto" style="width:80px;height:80px;font-size:2.2rem; background: linear-gradient(145deg, #E8A33D, #C6822A);"><i class="bi bi-exclamation-triangle"></i></div>
+    <h1 class="mt-4">Something went wrong</h1>
+    <p class="text-muted">{{ message|default:"An unexpected error occurred. Our team has been notified." }}</p>
+    <a href="{% url 'core:landing' %}" class="btn btn-sprig-primary mt-3">Back to Home</a>
+  </div>
+</section>
+{% endblock %}

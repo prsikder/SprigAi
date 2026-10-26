@@ -1,0 +1,56 @@
+{% extends "core/base.html" %}
+{% load widget_tweaks %}
+{% block title %}My Profile &mdash; {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="sprig-section">
+  <div class="container" style="max-width: 640px;">
+    <span class="section-label">Account</span>
+    <h1 class="mt-2 mb-4">My Profile</h1>
+
+    <div class="sprig-form-card">
+      <div class="d-flex align-items-center gap-3 mb-4">
+        {% if user.profile_image %}
+          <img src="{{ user.profile_image.url }}" class="rounded-circle" style="width:64px;height:64px;object-fit:cover;">
+        {% else %}
+          <div class="icon-badge" style="width:64px;height:64px;font-size:1.6rem;"><i class="bi bi-person"></i></div>
+        {% endif %}
+        <div>
+          <h5 class="mb-0">{{ user.get_full_name|default:user.username }}</h5>
+          <span class="badge-soft-green">{{ user.get_role_display }}</span>
+        </div>
+      </div>
+
+      <form method="post" enctype="multipart/form-data" data-loading="Saving...">
+        {% csrf_token %}
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">First name</label>
+            {{ form.first_name|add_class:"form-control" }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Last name</label>
+            {{ form.last_name|add_class:"form-control" }}
+          </div>
+          <div class="col-12">
+            <label class="form-label">Email</label>
+            {{ form.email|add_class:"form-control" }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Phone</label>
+            {{ form.phone|add_class:"form-control" }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">District</label>
+            {{ form.district|add_class:"form-select" }}
+          </div>
+          <div class="col-12">
+            <label class="form-label">Profile image</label>
+            {{ form.profile_image|add_class:"form-control" }}
+          </div>
+        </div>
+        <button type="submit" class="btn btn-sprig-primary mt-4">Save Changes</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

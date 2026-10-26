@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Django
+*.log
+logs/
+db.sqlite3
+/staticfiles/
+/media/
+
+# Environment
+.env
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+
+
+
+# Local credentials and environment files
+.env.*
+!.env.example
+
+# Duplicate model files and training material
+/Required files/
+/project files/
+
+# Trained models - distribute separately
+/ai_models/**/*.pkl
+/ai_models/**/*.pth
+
+# Reports and temporary working files
+/pdf/
+/generate_lab_report.py
+/scripts/_nb_extract.txt

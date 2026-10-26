@@ -1,0 +1,1 @@
+"""SprigAI project package."""

@@ -1,0 +1,31 @@
+{% extends "core/base.html" %}
+{% block title %}Login &mdash; {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="sprig-section">
+  <div class="container" style="max-width: 460px;">
+    <div class="text-center mb-4">
+      <span class="section-label">Welcome back</span>
+      <h1 class="mt-2">Log in to SprigAI</h1>
+    </div>
+    <div class="sprig-form-card">
+      {% if GOOGLE_OAUTH_ENABLED %}
+        {% include "accounts/partials/google_login_button.html" %}
+      {% endif %}
+      <form method="post" novalidate data-loading="Logging in...">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label">Username or Email</label>
+          <input type="text" name="username" class="form-control" required autofocus>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input type="password" name="password" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-sprig-primary w-100">Log In</button>
+      </form>
+      <p class="text-center small text-muted mt-3 mb-1">New to SprigAI? <a href="{% url 'accounts:signup' %}">Create an account</a></p>
+      <p class="text-center small text-muted mb-0">Are you an administrator? <a href="{% url 'accounts:admin_login' %}">Admin login</a></p>
+    </div>
+  </div>
+</section>
+{% endblock %}

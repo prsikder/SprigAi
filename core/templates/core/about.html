@@ -1,0 +1,55 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}About &mdash; {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="sprig-section section-about">
+  <div class="container">
+    <div class="row align-items-center g-5 about-intro">
+      <div class="col-lg-6">
+        <span class="section-label">About SprigAI</span>
+        <h1 class="mt-2 mb-4">Smart Crop Guardian</h1>
+        <p class="lead">SprigAI - Smart Crop Guardian is an AI-powered smart agriculture platform that helps farmers make better farming decisions from one website.</p>
+        <p>It combines crop recommendation, fertilizer recommendation, crop disease detection, soil classification, and an AI chatbot. Users can enter environmental and farming information or upload crop and soil images to receive fast AI-based predictions.</p>
+        <p>The system stores user histories, supports secure login, provides an admin dashboard, and uses trained machine learning and deep learning models integrated with a Django and MySQL web application.</p>
+        <p class="mb-0">The goal of SprigAI is to simplify farming decisions, reduce resource waste, support early disease detection, and improve crop productivity for Bangladesh and similar agricultural regions.</p>
+      </div>
+      <div class="col-lg-6">
+        <div class="about-image-wrap">
+          <img
+            src="{% static 'core/img/about_image.jpg' %}"
+            alt="Farmers using SprigAI smart agriculture tools in the field"
+            class="about-image"
+            width="640"
+            height="480"
+            decoding="async"
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 about-values">
+      <div class="col-md-4">
+        <div class="sprig-card"><div class="card-body">
+          <div class="icon-badge"><i class="bi bi-bullseye"></i></div>
+          <h6>Our mission</h6>
+          <p class="small text-muted mb-0">Put reliable, locally-relevant AI decision support in the hands of every farmer.</p>
+        </div></div>
+      </div>
+      <div class="col-md-4">
+        <div class="sprig-card"><div class="card-body">
+          <div class="icon-badge"><i class="bi bi-shield-check"></i></div>
+          <h6>Built responsibly</h6>
+          <p class="small text-muted mb-0">SprigAI supports &mdash; but never replaces &mdash; official agricultural expert advice.</p>
+        </div></div>
+      </div>
+      <div class="col-md-4">
+        <div class="sprig-card"><div class="card-body">
+          <div class="icon-badge"><i class="bi bi-geo-alt"></i></div>
+          <h6>Locally grounded</h6>
+          <p class="small text-muted mb-0">Trained with Bangladesh districts, seasons and crop patterns in mind.</p>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

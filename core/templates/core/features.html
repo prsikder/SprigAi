@@ -1,0 +1,53 @@
+{% extends "core/base.html" %}
+{% block title %}Features &mdash; {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="sprig-section">
+  <div class="container">
+    <span class="section-label">Features</span>
+    <h1 class="mt-2 mb-5">Five AI modules built for real farm decisions</h1>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="sprig-card feature-module-card"><div class="card-body">
+          <div class="icon-badge"><i class="bi bi-flower2"></i></div>
+          <h5>Crop Recommendation</h5>
+          <p class="text-muted small">Enter your area, district, season, temperature, humidity and growing time to get the most suitable crop, expected production, harvest window, and ideal growing conditions.</p>
+          <a href="{% url 'crop_recommendation:form' %}" class="fw-semibold">Try Crop Recommendation <i class="bi bi-arrow-right"></i></a>
+        </div></div>
+      </div>
+      <div class="col-md-6">
+        <div class="sprig-card feature-module-card"><div class="card-body">
+          <div class="icon-badge"><i class="bi bi-droplet-half"></i></div>
+          <h5>Fertilizer Recommendation</h5>
+          <p class="text-muted small">Provide soil type, pH, optional NPK levels, weather, crop and irrigation details to receive a tailored fertilizer recommendation.</p>
+          <a href="{% url 'fertilizer_recommendation:form' %}" class="fw-semibold">Try Fertilizer Recommendation <i class="bi bi-arrow-right"></i></a>
+        </div></div>
+      </div>
+      <div class="col-md-6">
+        <div class="sprig-card feature-module-card"><div class="card-body">
+          <div class="icon-badge"><i class="bi bi-bug"></i></div>
+          <h5>Crop Disease Detection</h5>
+          <p class="text-muted small">Upload a leaf photo and let a trained deep learning model identify the disease with a confidence score and advisory notes.</p>
+          <a href="{% url 'disease_detection:form' %}" class="fw-semibold">Try Disease Detection <i class="bi bi-arrow-right"></i></a>
+        </div></div>
+      </div>
+      <div class="col-md-6">
+        <div class="sprig-card feature-module-card"><div class="card-body">
+          <div class="icon-badge"><i class="bi bi-map"></i></div>
+          <h5>Soil Classification</h5>
+          <p class="text-muted small">Upload a soil photo to identify the soil type and get a list of crops best suited for it.</p>
+          <a href="{% url 'soil_classification:form' %}" class="fw-semibold">Try Soil Classification <i class="bi bi-arrow-right"></i></a>
+        </div></div>
+      </div>
+      <div class="col-md-12">
+        <div class="sprig-card feature-module-card"><div class="card-body">
+          <div class="icon-badge"><i class="bi bi-chat-dots"></i></div>
+          <h5>Farmer AI Chatbot</h5>
+          <p class="text-muted small">Ask questions about crops, fertilizer, soil, disease, irrigation and seasons in plain language, any time.</p>
+          <a href="{% url 'chatbot:chat' %}" class="fw-semibold">Chat with SprigAI <i class="bi bi-arrow-right"></i></a>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

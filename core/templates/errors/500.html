@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Server Error | SprigAI{% endblock %}
+
+{% block content %}
+<main class="error-page">
+  <section class="error-panel" aria-labelledby="error-title">
+    <p class="error-code">500</p>
+    <h1 class="error-title" id="error-title">Something went wrong</h1>
+    <p class="error-text">
+      SprigAI could not complete this request. Please try again later or contact the site administrator.
+    </p>
+    <a class="btn btn-success" href="{% url 'core:home' %}">Go home</a>
+  </section>
+</main>
+{% endblock %}

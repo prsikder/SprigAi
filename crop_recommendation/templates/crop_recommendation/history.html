@@ -1,0 +1,60 @@
+{% extends "core/base.html" %}
+{% block title %}Crop History &mdash; {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="sprig-section">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+      <div>
+        <span class="section-label">History</span>
+        <h1 class="mt-2 mb-0">Crop Recommendation History</h1>
+      </div>
+      <a href="{% url 'crop_recommendation:form' %}" class="btn btn-sprig-primary"><i class="bi bi-plus-circle me-1"></i> New Prediction</a>
+    </div>
+
+    <form method="get" class="mb-3">
+      <div class="input-group" style="max-width:360px;">
+        <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="Search by crop name">
+        <button class="btn btn-sprig-outline" type="submit"><i class="bi bi-search"></i></button>
+      </div>
+    </form>
+
+    <div class="sprig-card">
+      <div class="table-responsive">
+        <table class="table table-sprig mb-0 align-middle">
+          <thead>
+            <tr><th>Date</th><th>District</th><th>Season</th><th>Predicted Crop</th><th>Harvest</th><th></th></tr>
+          </thead>
+          <tbody>
+            {% for r in page_obj %}
+            <tr>
+              <td>{{ r.created_at|date:"d M Y, H:i" }}</td>
+              <td>{{ r.district }}</td>
+              <td>{{ r.season }}</td>
+              <td class="fw-semibold">{{ r.predicted_crop }}</td>
+              <td>{{ r.predicted_harvest }}</td>
+              <td><a href="{% url 'crop_recommendation:result' r.pk %}" class="small">View <i class="bi bi-arrow-right"></i></a></td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="6" class="text-center text-muted py-4">No predictions yet. <a href="{% url 'crop_recommendation:form' %}">Make your first one</a>.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {% if page_obj.paginator.num_pages > 1 %}
+    <nav class="mt-4">
+      <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ q }}">Previous</a></li>
+        {% endif %}
+        <li class="page-item disabled"><span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
+        {% if page_obj.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ q }}">Next</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "core/base.html" %}
+{% load widget_tweaks %}
+{% block title %}Crop Disease Detection &mdash; {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="sprig-section">
+  <div class="container" style="max-width: 700px;">
+    <div class="text-center mb-4">
+      <span class="section-label">AI Module</span>
+      <h1 class="mt-2"><i class="bi bi-bug me-2" style="color:var(--sprig-leaf);"></i>Crop Disease Detection</h1>
+      <p class="text-muted">Upload a clear photo of the crop leaf for instant AI analysis.</p>
+      <a href="{% url 'disease_detection:history' %}" class="small">View my disease history <i class="bi bi-clock-history"></i></a>
+    </div>
+
+    <div class="sprig-form-card">
+      <form method="post" enctype="multipart/form-data" novalidate data-loading="Analyzing leaf image...">
+        {% csrf_token %}
+        <label class="form-label">Leaf Photo (JPG, JPEG, PNG, WEBP)</label>
+        {{ form.image|add_class:"form-control" }}
+        {% for e in form.image.errors %}<div class="text-danger small mt-1">{{ e }}</div>{% endfor %}
+        <div id="imagePreview" class="mt-3 text-center"></div>
+        <button type="submit" class="btn btn-sprig-primary w-100 mt-4"><i class="bi bi-search me-1"></i> Detect Disease</button>
+      </form>
+    </div>
+
+    <div class="alert alert-secondary mt-4 small">
+      <i class="bi bi-info-circle me-1"></i> This tool assists early detection but does not replace expert diagnosis. For serious or spreading symptoms, please consult your local agricultural office.
+    </div>
+  </div>
+</section>
+{% endblock %}

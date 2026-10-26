@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}SprigAI | Smart Crop Guardian{% endblock %}
+
+{% block content %}
+<header class="hero">
+  <div class="container">
+    <p class="eyebrow">Smart agriculture guidance</p>
+    <h1>SprigAI Smart Crop Guardian</h1>
+    <p>Make confident crop, fertilizer, plant health, and soil decisions with a clean digital workspace built for Bangladesh agriculture.</p>
+    <div class="d-flex flex-wrap gap-3 mt-4">
+      {% if user.is_authenticated %}
+        <a class="btn btn-success btn-lg" href="{% url 'dashboard:index' %}">Open dashboard</a>
+      {% else %}
+        <a class="btn btn-success btn-lg" href="{% url 'accounts:signup' %}">Get started</a>
+        <a class="btn btn-outline-light btn-lg" href="{% url 'core:features' %}">Explore features</a>
+      {% endif %}
+    </div>
+    <div class="hero-metrics">
+      <div class="hero-metric"><strong>5</strong><span>Decision support tools</span></div>
+      <div class="hero-metric"><strong>24/7</strong><span>Accessible farm records</span></div>
+      <div class="hero-metric"><strong>BD</strong><span>Bangladesh field focus</span></div>
+    </div>
+  </div>
+</header>
+
+<section class="section-pad">
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">Core Modules</p>
+      <h2 class="fw-bold">Built around everyday farming decisions</h2>
+      <p class="text-muted">SprigAI keeps essential crop planning, fertilizer guidance, disease review, and soil records in one organized place.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-xl-3">
+        <a class="module-link" href="{% url 'crop_recommendation:index' %}">
+          <div class="card sprig-card p-4">
+            <span class="icon-tile mb-3"><i class="bi bi-grid-3x3-gap"></i></span>
+            <h3 class="h5 fw-bold">Crop Recommendation</h3>
+            <p class="text-muted mb-0">Compare crop options using field, season, district, and climate details.</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <a class="module-link" href="{% url 'fertilizer_recommendation:index' %}">
+          <div class="card sprig-card p-4">
+            <span class="icon-tile accent mb-3"><i class="bi bi-droplet-half"></i></span>
+            <h3 class="h5 fw-bold">Fertilizer Guidance</h3>
+            <p class="text-muted mb-0">Organize nutrient information and prepare clearer fertilizer decisions.</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <a class="module-link" href="{% url 'disease_detection:index' %}">
+          <div class="card sprig-card p-4">
+            <span class="icon-tile water mb-3"><i class="bi bi-camera"></i></span>
+            <h3 class="h5 fw-bold">Disease Detection</h3>
+            <p class="text-muted mb-0">Review crop images and keep plant health observations in history.</p>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <a class="module-link" href="{% url 'soil_classification:index' %}">
+          <div class="card sprig-card p-4">
+            <span class="icon-tile mb-3"><i class="bi bi-layers"></i></span>
+            <h3 class="h5 fw-bold">Soil Classification</h3>
+            <p class="text-muted mb-0">Connect soil observations with useful crop planning records.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad soft-band">
+  <div class="container">
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-5">
+        <p class="eyebrow">How It Works</p>
+        <h2 class="fw-bold">A simple flow from field input to useful guidance</h2>
+        <p class="text-muted">Every module follows a clear path so farmers can review inputs, understand results, and keep records for later decisions.</p>
+      </div>
+      <div class="col-lg-7">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="card sprig-card p-4">
+              <span class="icon-tile mb-3"><i class="bi bi-pencil-square"></i></span>
+              <h3 class="h6 fw-bold">1. Add field details</h3>
+              <p class="text-muted mb-0">Enter crop data or upload a clear field image.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card sprig-card p-4">
+              <span class="icon-tile accent mb-3"><i class="bi bi-cpu"></i></span>
+              <h3 class="h6 fw-bold">2. Review guidance</h3>
+              <p class="text-muted mb-0">See organized insights in a farmer-friendly format.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card sprig-card p-4">
+              <span class="icon-tile water mb-3"><i class="bi bi-clipboard-check"></i></span>
+              <h3 class="h6 fw-bold">3. Save history</h3>
+              <p class="text-muted mb-0">Keep records for repeat checks and future planning.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad">
+  <div class="container">
+    <div class="section-heading">
+      <p class="eyebrow">Bangladesh Focus</p>
+      <h2 class="fw-bold">Designed for local agriculture workflows</h2>
+      <p class="text-muted">SprigAI supports district profiles, practical histories, and a clear interface for farmers, students, and agricultural teams.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card sprig-card p-4">
+          <span class="icon-tile mb-3"><i class="bi bi-geo-alt"></i></span>
+          <h3 class="h5 fw-bold">District context</h3>
+          <p class="text-muted mb-0">Profiles keep district information close to each user’s agriculture records.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card sprig-card p-4">
+          <span class="icon-tile accent mb-3"><i class="bi bi-journal-text"></i></span>
+          <h3 class="h5 fw-bold">Practical histories</h3>
+          <p class="text-muted mb-0">Prediction history pages help users revisit results across growing seasons.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card sprig-card p-4">
+          <span class="icon-tile water mb-3"><i class="bi bi-speedometer2"></i></span>
+          <h3 class="h5 fw-bold">Admin visibility</h3>
+          <p class="text-muted mb-0">Dashboard summaries help teams monitor usage, messages, and recent activity.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% include "components/result_pattern.html" %}
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "core/base.html" %}
+{% block title %}Fertilizer Result &mdash; {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="sprig-section">
+  <div class="container" style="max-width: 700px;">
+    <div class="result-hero mb-4">
+      <span class="badge-soft-gold mb-2">Recommended Fertilizer</span>
+      <h1 class="text-white mb-1">{{ record.recommended_fertilizer }}</h1>
+      <p class="mb-0" style="color:rgba(255,255,255,0.85);">For {{ record.crop_type }} grown in {{ record.soil_type }} soil ({{ record.season }} season).</p>
+      {% if record.npk_imputed %}
+        <div class="alert alert-info mt-3 mb-0 py-2 small">Some NPK values were estimated because they were left blank.</div>
+      {% endif %}
+    </div>
+
+    <div class="sprig-card"><div class="card-body">
+      <h6 class="text-muted small text-uppercase mb-3">Input Summary</h6>
+      <div class="row small">
+        <div class="col-6 mb-2"><strong>Soil pH:</strong> {{ record.soil_ph }}</div>
+        <div class="col-6 mb-2"><strong>Temperature:</strong> {{ record.temperature }}°C</div>
+        <div class="col-6 mb-2"><strong>Humidity:</strong> {{ record.humidity }}%</div>
+        <div class="col-6 mb-2"><strong>Growth Stage:</strong> {{ record.crop_growth_stage }}</div>
+        <div class="col-6 mb-2"><strong>Irrigation:</strong> {{ record.irrigation_type }}</div>
+        <div class="col-6 mb-2"><strong>Previous Crop:</strong> {{ record.previous_crop }}</div>
+        <div class="col-6 mb-2"><strong>Nitrogen:</strong> {{ record.nitrogen_level }}</div>
+        <div class="col-6 mb-2"><strong>Phosphorus:</strong> {{ record.phosphorus_level }}</div>
+        <div class="col-6 mb-2"><strong>Potassium:</strong> {{ record.potassium_level }}</div>
+      </div>
+    </div></div>
+
+    <div class="d-flex flex-wrap gap-3 mt-4">
+      <a href="{% url 'fertilizer_recommendation:form' %}" class="btn btn-sprig-primary"><i class="bi bi-arrow-repeat me-1"></i> New Prediction</a>
+      <a href="{% url 'fertilizer_recommendation:history' %}" class="btn btn-sprig-outline"><i class="bi bi-clock-history me-1"></i> View History</a>
+      <button onclick="window.print()" class="btn btn-sprig-outline"><i class="bi bi-printer me-1"></i> Print</button>
+    </div>
+  </div>
+</section>
+{% endblock %}

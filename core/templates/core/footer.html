@@ -1,0 +1,42 @@
+{% load static %}
+<footer class="sprig-footer">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <a href="{% url 'core:landing' %}" class="footer-brand text-decoration-none">
+          <img src="{% static 'core/img/sprigai-icon.png' %}" alt="SprigAI" class="brand-icon" width="32" height="32" decoding="async">
+          <span class="footer-brand-text">SprigAI</span>
+        </a>
+        <p class="small">Smart Crop Guardian &mdash; an AI-powered agriculture assistant helping farmers across Bangladesh make better, faster, data-driven decisions.</p>
+      </div>
+      <div class="col-lg-2 col-6">
+        <h6>AI Modules</h6>
+        <ul class="list-unstyled small">
+          <li class="mb-2"><a href="{% url 'crop_recommendation:form' %}">Crop Recommendation</a></li>
+          <li class="mb-2"><a href="{% url 'fertilizer_recommendation:form' %}">Fertilizer Recommendation</a></li>
+          <li class="mb-2"><a href="{% url 'disease_detection:form' %}">Disease Detection</a></li>
+          <li class="mb-2"><a href="{% url 'soil_classification:form' %}">Soil Classification</a></li>
+          <li class="mb-2"><a href="{% url 'chatbot:chat' %}">AI Chatbot</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-6">
+        <h6>Company</h6>
+        <ul class="list-unstyled small">
+          <li class="mb-2"><a href="{% url 'core:about' %}">About</a></li>
+          <li class="mb-2"><a href="{% url 'core:features' %}">Features</a></li>
+          <li class="mb-2"><a href="{% url 'core:faq' %}">FAQ</a></li>
+          <li class="mb-2"><a href="{% url 'contact:contact' %}">Contact</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4">
+        <h6>Stay grounded</h6>
+        <p class="small">Built for Bangladesh&rsquo;s farmers &mdash; supporting all 64 districts, local seasons (Kharif 1, Kharif 2, Rabi), and regional crop patterns.</p>
+      </div>
+    </div>
+    <hr class="border-secondary my-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between small">
+      <p class="mb-0">&copy; {% now "Y" %} SprigAI - Smart Crop Guardian. All rights reserved.</p>
+      <p class="mb-0 footer-credit">Created by Pushpita Sikder Reya</p>
+    </div>
+  </div>
+</footer>

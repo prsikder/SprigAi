@@ -1,0 +1,406 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block body_attrs %} class="page-landing"{% endblock %}
+{% block content %}
+
+<section class="sprig-hero" aria-label="SprigAI introduction">
+  <div class="hero-carousel" data-hero-carousel aria-live="polite">
+    <div class="hero-carousel-track">
+      <article class="hero-slide is-active" data-slide="0">
+        <div class="hero-slide-bg" aria-hidden="true">
+          <img src="{% static 'core/img/hero-banner-1.jpg' %}" alt="" width="1920" height="1080" decoding="async" fetchpriority="high">
+        </div>
+        <div class="hero-slide-overlay" aria-hidden="true"></div>
+        <div class="container hero-slide-layout">
+          <h1 class="hero-display-title">Grow with Confidence.</h1>
+          <div class="hero-panel">
+            <p class="hero-panel-kicker">Smart Crop Guardian</p>
+            <h3 class="hero-panel-title">Let AI guard every season of your harvest.</h3>
+            <p class="hero-panel-text">From Kharif to Rabi, SprigAI turns field data into clear crop and fertilizer guidance &mdash; so you can plan each season with certainty.</p>
+            <div class="hero-cta">
+              {% if user.is_authenticated %}
+                <a href="{% url 'dashboard:home' %}" class="btn btn-sprig-gold btn-lg">
+                  <i class="bi bi-speedometer2 me-2" aria-hidden="true"></i>Go to Dashboard
+                </a>
+              {% else %}
+                <a href="{% url 'accounts:signup' %}" class="btn btn-sprig-gold btn-lg">
+                  <i class="bi bi-arrow-right-circle me-2" aria-hidden="true"></i>Start Free
+                </a>
+                <a href="{% url 'core:features' %}" class="btn btn-sprig-outline btn-lg hero-btn-outline">Explore Features</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="hero-slide" data-slide="1">
+        <div class="hero-slide-bg" aria-hidden="true">
+          <img src="{% static 'core/img/hero-banner-2.png' %}" alt="" width="1920" height="1080" decoding="async">
+        </div>
+        <div class="hero-slide-overlay" aria-hidden="true"></div>
+        <div class="container hero-slide-layout">
+          <p class="hero-display-title" aria-hidden="true">See Problems Early.</p>
+          <div class="hero-panel">
+            <p class="hero-panel-kicker">AI Vision for the Field</p>
+            <h3 class="hero-panel-title">Detect crop disease and classify soil from a single photo.</h3>
+            <p class="hero-panel-text">Upload a leaf or soil image and get instant AI analysis with confidence scores, advisory notes, and suitable crop suggestions &mdash; no lab visit required.</p>
+            <div class="hero-cta">
+              <a href="{% url 'disease_detection:form' %}" class="btn btn-sprig-gold btn-lg">
+                <i class="bi bi-camera me-2" aria-hidden="true"></i>Try Disease Detection
+              </a>
+              <a href="{% url 'soil_classification:form' %}" class="btn btn-sprig-outline btn-lg hero-btn-outline">Classify Soil</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="hero-slide" data-slide="2">
+        <div class="hero-slide-bg" aria-hidden="true">
+          <img src="{% static 'core/img/hero-banner-1.png' %}" alt="" width="1920" height="1080" decoding="async">
+        </div>
+        <div class="hero-slide-overlay" aria-hidden="true"></div>
+        <div class="container hero-slide-layout">
+          <p class="hero-display-title" aria-hidden="true">Built for Bangladesh.</p>
+          <div class="hero-panel">
+            <p class="hero-panel-kicker">All {{ district_count }} Districts</p>
+            <h3 class="hero-panel-title">One platform. Five AI tools. A farmer chatbot on call.</h3>
+            <p class="hero-panel-text">Crop recommendation, fertilizer guidance, disease detection, soil classification, and a plain-language farming chatbot &mdash; unified for every district from Sylhet to Satkhira.</p>
+            <div class="hero-cta">
+              <a href="{% url 'chatbot:chat' %}" class="btn btn-sprig-gold btn-lg">
+                <i class="bi bi-chat-dots me-2" aria-hidden="true"></i>Ask the Chatbot
+              </a>
+              <a href="{% url 'contact:contact' %}" class="btn btn-sprig-outline btn-lg hero-btn-outline">Get in Touch</a>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="hero-carousel-indicators" role="tablist" aria-label="Hero slides">
+      <button type="button" class="hero-indicator is-active" data-slide-to="0" aria-label="Slide 1" aria-selected="true"></button>
+      <button type="button" class="hero-indicator" data-slide-to="1" aria-label="Slide 2" aria-selected="false"></button>
+      <button type="button" class="hero-indicator" data-slide-to="2" aria-label="Slide 3" aria-selected="false"></button>
+    </div>
+  </div>
+</section>
+
+<section class="sprig-section section-features">
+  <div class="container">
+    <div class="text-center mb-5 section-intro">
+      <span class="section-label">Five AI modules, one platform</span>
+      <h2 class="mt-2">Everything a modern farm needs</h2>
+    </div>
+    <div class="row g-4">
+      {% for f in features %}
+      <div class="col-md-6 col-lg-4">
+        <div class="sprig-card feature-module-card">
+          <div class="card-body">
+            <div class="icon-badge"><i class="bi {{ f.icon }}"></i></div>
+            <h5>{{ f.title }}</h5>
+            <p class="text-muted small">{{ f.desc }}</p>
+            <a href="{% url f.url_name %}" class="fw-semibold">Try it now <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sprig-section section-analytics" id="analytics">
+  <div class="container">
+    <div class="text-center mb-5 section-intro">
+      <span class="section-label">Agriculture analytics</span>
+      <h2 class="mt-2">AI insights that guide better harvests</h2>
+      <p class="section-lead mx-auto">Explore illustrative platform analytics for crop focus, AI module usage, and seasonal prediction confidence across Bangladesh farming seasons.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="sprig-card chart-card">
+          <div class="card-body">
+            <h6 class="chart-title"><i class="bi bi-pie-chart-fill me-2"></i>Crop recommendation mix</h6>
+            <p class="small text-muted mb-3">Share of suggested crops from field inputs</p>
+            <div class="chart-wrap">
+              <canvas id="cropMixChart" aria-label="Crop recommendation mix chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="sprig-card chart-card">
+          <div class="card-body">
+            <h6 class="chart-title"><i class="bi bi-bar-chart-fill me-2"></i>AI module usage</h6>
+            <p class="small text-muted mb-3">Relative demand across SprigAI tools</p>
+            <div class="chart-wrap">
+              <canvas id="moduleUsageChart" aria-label="AI module usage chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="sprig-card chart-card">
+          <div class="card-body">
+            <h6 class="chart-title"><i class="bi bi-graph-up-arrow me-2"></i>Seasonal prediction confidence</h6>
+            <p class="small text-muted mb-3">Model confidence across growing seasons</p>
+            <div class="chart-wrap">
+              <canvas id="confidenceChart" aria-label="Seasonal prediction confidence chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sprig-section section-how">
+  <div class="container">
+    <div class="text-center mb-5 section-intro">
+      <span class="section-label">How it works</span>
+      <h2 class="mt-2">From field data to a confident decision</h2>
+    </div>
+    <div class="row g-4 text-center">
+      <div class="col-md-4">
+        <div class="icon-badge mx-auto"><i class="bi bi-pencil-square"></i></div>
+        <h6 class="mt-3">1. Enter your input</h6>
+        <p class="small text-muted">Fill a simple form or upload a crop / soil photo &mdash; no technical knowledge needed.</p>
+      </div>
+      <div class="col-md-4">
+        <div class="icon-badge mx-auto"><i class="bi bi-cpu"></i></div>
+        <h6 class="mt-3">2. AI processing</h6>
+        <p class="small text-muted">Trained machine learning and deep learning models analyze your data in seconds.</p>
+      </div>
+      <div class="col-md-4">
+        <div class="icon-badge mx-auto"><i class="bi bi-clipboard-check"></i></div>
+        <h6 class="mt-3">3. Get a clear result</h6>
+        <p class="small text-muted">Receive a recommendation with confidence, advisory notes, and a saved history record.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sprig-section section-why">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <span class="section-label">Why SprigAI</span>
+        <h2 class="mt-2 mb-3">Built for Bangladesh&rsquo;s fields, not a generic dataset</h2>
+        <ul class="list-unstyled why-list">
+          <li class="mb-3"><i class="bi bi-check-circle-fill"></i> Covers all 64 districts and local growing seasons (Kharif 1, Kharif 2, Rabi).</li>
+          <li class="mb-3"><i class="bi bi-check-circle-fill"></i> Handles missing or unseen data gracefully &mdash; never crashes on real-world input.</li>
+          <li class="mb-3"><i class="bi bi-check-circle-fill"></i> Keeps a full history of every prediction so you can track decisions over time.</li>
+          <li class="mb-3"><i class="bi bi-check-circle-fill"></i> A farmer-friendly AI chatbot answers questions in plain language.</li>
+        </ul>
+      </div>
+      <div class="col-lg-6">
+        <div class="sprig-card">
+          <div class="card-body">
+            <div class="badge-soft-green mb-3">Bangladesh focus</div>
+            <h5>64 districts supported</h5>
+            <p class="text-muted small">From Bagerhat to Thakurgaon &mdash; SprigAI's crop recommendation module understands the district-level context that matters for real farming decisions.</p>
+            <div class="badge-soft-gold mb-3 mt-4">Safety first</div>
+            <h5>Graceful, never a crash</h5>
+            <p class="text-muted small">Optional fields, unseen categories, and missing model files are all handled with friendly messages &mdash; never a raw error page.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sprig-section section-creator" id="creator">
+  <div class="container">
+    <div class="text-center mb-5 section-intro">
+      <span class="section-label section-label-on-dark">Creator</span>
+      <h2 class="mt-2 creator-heading">Meet the mind behind SprigAI</h2>
+      <p class="creator-lead mx-auto">Designed and built to bring practical AI tools to Bangladesh agriculture.</p>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <article class="creator-card">
+          <div class="creator-card-glow" aria-hidden="true"></div>
+          <div class="creator-card-body">
+            <div class="creator-avatar" aria-hidden="true">
+              <span class="creator-avatar-initials">PSR</span>
+            </div>
+            <div class="creator-info">
+              <p class="creator-kicker">Created By</p>
+              <h3 class="creator-name">Pushpita Sikder Reya</h3>
+              <p class="creator-role">Creator &amp; Developer · SprigAI</p>
+              <ul class="creator-meta list-unstyled mb-0">
+                <li>
+                  <span class="creator-meta-icon" aria-hidden="true"><i class="bi bi-mortarboard-fill"></i></span>
+                  <span>B.Sc. in Computer Science &amp; Engineering</span>
+                </li>
+                <li>
+                  <span class="creator-meta-icon" aria-hidden="true"><i class="bi bi-building"></i></span>
+                  <span>Sylhet Engineering College</span>
+                </li>
+                <li>
+                  <span class="creator-meta-icon" aria-hidden="true"><i class="bi bi-droplet-fill"></i></span>
+                  <span>Blood Group: A+</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sprig-section section-testimonials" id="testimonials">
+  <div class="container">
+    <div class="text-center mb-5 section-intro">
+      <span class="section-label section-label-on-dark">Voices from the field</span>
+      <h2 class="mt-2 testimonials-heading">Trusted by farmers &amp; students alike</h2>
+      <p class="testimonials-lead mx-auto">Illustrative feedback showing how SprigAI supports clearer, calmer farming decisions.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <blockquote class="testimonial-card">
+          <p class="testimonial-quote">“The crop suggestion matched our Rabi season perfectly. Simple form, clear result.”</p>
+          <footer class="testimonial-author">
+            <span class="testimonial-avatar" aria-hidden="true"><i class="bi bi-person-fill"></i></span>
+            <div>
+              <strong>Karim Hossain</strong>
+              <span>Farmer · Rajshahi</span>
+            </div>
+          </footer>
+        </blockquote>
+      </div>
+      <div class="col-md-4">
+        <blockquote class="testimonial-card">
+          <p class="testimonial-quote">“Disease detection from a leaf photo saved me a trip to the local office.”</p>
+          <footer class="testimonial-author">
+            <span class="testimonial-avatar" aria-hidden="true"><i class="bi bi-person-fill"></i></span>
+            <div>
+              <strong>Nasrin Akter</strong>
+              <span>Grower · Sylhet</span>
+            </div>
+          </footer>
+        </blockquote>
+      </div>
+      <div class="col-md-4">
+        <blockquote class="testimonial-card">
+          <p class="testimonial-quote">“Clean UI and Bangladesh-specific seasons — exactly what our agri project needed.”</p>
+          <footer class="testimonial-author">
+            <span class="testimonial-avatar" aria-hidden="true"><i class="bi bi-person-fill"></i></span>
+            <div>
+              <strong>Arif Chowdhury</strong>
+              <span>CSE Student · Dhaka</span>
+            </div>
+          </footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script>
+(function () {
+  if (!window.Chart) return;
+
+  var greens = ['#1B4332', '#40916C', '#74C69D', '#E8A33D', '#6B4226'];
+  var gridColor = 'rgba(26, 31, 27, 0.08)';
+  var tickColor = '#4A554D';
+
+  Chart.defaults.font.family = "'Work Sans', sans-serif";
+  Chart.defaults.color = tickColor;
+
+  var cropCtx = document.getElementById('cropMixChart');
+  if (cropCtx) {
+    new Chart(cropCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Rice', 'Wheat', 'Maize', 'Potato', 'Jute'],
+        datasets: [{
+          data: [38, 18, 16, 15, 13],
+          backgroundColor: greens,
+          borderWidth: 0,
+          hoverOffset: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '62%',
+        plugins: {
+          legend: { position: 'bottom', labels: { boxWidth: 12, padding: 14 } }
+        }
+      }
+    });
+  }
+
+  var usageCtx = document.getElementById('moduleUsageChart');
+  if (usageCtx) {
+    new Chart(usageCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Crop', 'Fertilizer', 'Disease', 'Soil', 'Chatbot'],
+        datasets: [{
+          label: 'Usage share (%)',
+          data: [28, 22, 20, 18, 12],
+          backgroundColor: ['#1B4332', '#40916C', '#74C69D', '#E8A33D', '#6B4226'],
+          borderRadius: 8,
+          maxBarThickness: 36
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false } },
+          y: {
+            beginAtZero: true,
+            max: 40,
+            grid: { color: gridColor },
+            ticks: { callback: function (v) { return v + '%'; } }
+          }
+        }
+      }
+    });
+  }
+
+  var confCtx = document.getElementById('confidenceChart');
+  if (confCtx) {
+    new Chart(confCtx, {
+      type: 'line',
+      data: {
+        labels: ['Kharif 1', 'Kharif 2', 'Rabi', 'Pre-monsoon', 'Post-harvest'],
+        datasets: [{
+          label: 'Confidence (%)',
+          data: [86, 91, 88, 84, 90],
+          borderColor: '#40916C',
+          backgroundColor: 'rgba(64, 145, 108, 0.18)',
+          fill: true,
+          tension: 0.35,
+          pointBackgroundColor: '#1B4332',
+          pointRadius: 4,
+          pointHoverRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false } },
+          y: {
+            min: 70,
+            max: 100,
+            grid: { color: gridColor },
+            ticks: { callback: function (v) { return v + '%'; } }
+          }
+        }
+      }
+    });
+  }
+})();
+</script>
+{% endblock %}

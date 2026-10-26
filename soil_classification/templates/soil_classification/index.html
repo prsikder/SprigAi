@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Soil Classification | SprigAI{% endblock %}
+
+{% block content %}
+<section class="section-pad">
+  <div class="container">
+    <div class="row g-4 align-items-start">
+      <div class="col-lg-5">
+        <p class="eyebrow">Soil Review</p>
+        <h1 class="fw-bold display-5">Soil Classification</h1>
+        <p class="lead text-muted">Upload a soil image to classify soil type and review suitable crop suggestions for that soil.</p>
+        <div class="card sprig-card p-4 mt-4">
+          <span class="icon-tile mb-3"><i class="bi bi-layers"></i></span>
+          <h2 class="h4 fw-bold">Upload tips</h2>
+          <ol class="text-muted mb-0">
+            <li>Use JPG, JPEG, PNG, or WEBP images.</li>
+            <li>Capture a clear soil sample in natural light.</li>
+            <li>Avoid heavy shadows, water glare, or objects covering the soil.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <form class="form-panel p-4" method="post" enctype="multipart/form-data" novalidate data-loading-form>
+          {% csrf_token %}
+          <h2 class="h4 fw-bold mb-4">Soil image</h2>
+          {% for field in form %}
+            <div class="mb-3">
+              <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+              {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+              {% for error in field.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            </div>
+          {% endfor %}
+          <div class="border rounded-3 p-3 mb-4 bg-light">
+            <img id="soil-preview" class="img-fluid rounded-3 d-none" alt="Selected soil preview">
+            <p class="text-muted mb-0" data-preview-empty>Image preview will appear here after selection.</p>
+          </div>
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+          {% endif %}
+          <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-success btn-lg" type="submit" data-loading-button>Classify soil</button>
+            <a class="btn btn-outline-success btn-lg" href="{% url 'soil_classification:history' %}">View history</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

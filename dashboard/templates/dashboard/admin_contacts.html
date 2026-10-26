@@ -1,0 +1,43 @@
+{% extends "core/base.html" %}
+{% block title %}Contact Messages &mdash; {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="sprig-section">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <span class="section-label">Administration</span>
+        <h1 class="mt-2 mb-0">Contact Messages</h1>
+      </div>
+      <a href="{% url 'dashboard:admin_home' %}" class="btn btn-sprig-outline btn-sm"><i class="bi bi-arrow-left me-1"></i>Back to Dashboard</a>
+    </div>
+
+    <div class="row g-4">
+      {% for c in contacts %}
+      <div class="col-md-6">
+        <div class="sprig-card"><div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <h6 class="mb-0">{{ c.subject }}</h6>
+              <p class="small text-muted mb-0">{{ c.name }} &lt;{{ c.email }}&gt; &middot; {{ c.created_at|date:"d M Y, H:i" }}</p>
+            </div>
+            <span class="badge-soft-gold">{{ c.get_status_display }}</span>
+          </div>
+          <p class="small">{{ c.message|linebreaksbr }}</p>
+          <form method="post" action="{% url 'dashboard:admin_update_contact_status' c.pk %}" class="d-flex gap-2">
+            {% csrf_token %}
+            <select name="status" class="form-select form-select-sm" style="max-width:160px;">
+              {% for value, label in c.Status.choices %}
+                <option value="{{ value }}" {% if c.status == value %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-sprig-outline btn-sm">Update</button>
+          </form>
+        </div></div>
+      </div>
+      {% empty %}
+      <div class="col-12 text-center text-muted py-5">No contact messages yet.</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

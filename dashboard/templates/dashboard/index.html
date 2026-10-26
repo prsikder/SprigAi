@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | SprigAI{% endblock %}
+
+{% block content %}
+<section class="section-pad">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+      <div>
+        <p class="eyebrow">User Dashboard</p>
+        <h1 class="fw-bold display-6">Welcome, {{ user.first_name|default:user.username }}</h1>
+        <p class="text-muted mb-0">Open agriculture tools, review saved records, and keep your profile ready for field decisions.</p>
+      </div>
+      <a class="btn btn-outline-success" href="{% url 'accounts:profile' %}"><i class="bi bi-person me-1"></i> Profile</a>
+    </div>
+
+    <div class="row g-4 mb-4">
+      <div class="col-md-3">
+        <div class="card sprig-card dashboard-stat p-4">
+          <span class="icon-tile mb-3"><i class="bi bi-bar-chart"></i></span>
+          <p class="text-muted mb-1">Total predictions</p>
+          <h2 class="fw-bold">{{ total_predictions }}</h2>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card sprig-card dashboard-stat p-4">
+          <span class="icon-tile mb-3"><i class="bi bi-grid-3x3-gap"></i></span>
+          <p class="text-muted mb-1">Crop</p>
+          <h2 class="fw-bold">{{ counts.crop }}</h2>
+          <a href="{% url 'crop_recommendation:history' %}">View history</a>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card sprig-card dashboard-stat p-4">
+          <span class="icon-tile accent mb-3"><i class="bi bi-droplet-half"></i></span>
+          <p class="text-muted mb-1">Fertilizer</p>
+          <h2 class="fw-bold">{{ counts.fertilizer }}</h2>
+          <a href="{% url 'fertilizer_recommendation:history' %}">View history</a>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card sprig-card dashboard-stat p-4">
+          <span class="icon-tile water mb-3"><i class="bi bi-camera"></i></span>
+          <p class="text-muted mb-1">Image modules</p>
+          <h2 class="fw-bold">{{ counts.disease|add:counts.soil }}</h2>
+          <a href="{% url 'disease_detection:history' %}">Disease history</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="card sprig-card p-4">
+          <h2 class="h4 fw-bold mb-3">Quick actions</h2>
+          <div class="row g-3">
+            <div class="col-md-6"><a class="btn btn-success w-100" href="{% url 'crop_recommendation:index' %}">Open crop module</a></div>
+            <div class="col-md-6"><a class="btn btn-success w-100" href="{% url 'fertilizer_recommendation:index' %}">Open fertilizer module</a></div>
+            <div class="col-md-6"><a class="btn btn-outline-success w-100" href="{% url 'disease_detection:index' %}">Open disease module</a></div>
+            <div class="col-md-6"><a class="btn btn-outline-success w-100" href="{% url 'soil_classification:index' %}">Open soil module</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card sprig-card p-4">
+          <h2 class="h4 fw-bold mb-3">Profile summary</h2>
+          <p class="mb-1"><strong>District:</strong> {{ user.district|default:"Not set" }}</p>
+          <p class="mb-1"><strong>Phone:</strong> {{ user.phone|default:"Not set" }}</p>
+          <p class="mb-0"><strong>Role:</strong> {{ user.get_role_display }}</p>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="table-shell">
+          <div class="p-4 border-bottom">
+            <h2 class="h4 fw-bold mb-0">Recent predictions</h2>
+          </div>
+          <div class="table-responsive">
+            <table class="table align-middle mb-0">
+              <thead><tr><th>Module</th><th>Result</th><th>Date</th></tr></thead>
+              <tbody>
+                {% for row in recent_predictions %}
+                  <tr><td>{{ row.module }}</td><td>{{ row.result }}</td><td>{{ row.created_at|date:"M d, Y H:i" }}</td></tr>
+                {% empty %}
+                  <tr><td colspan="3" class="text-center text-muted py-4">No predictions have been saved yet. Your recent results will appear here.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

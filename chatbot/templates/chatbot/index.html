@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Chatbot | SprigAI{% endblock %}
+
+{% block content %}
+<section class="section-pad">
+  <div class="container">
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+      <div>
+        <p class="eyebrow">Farmer Support</p>
+        <h1 class="fw-bold display-5">Farmer Chatbot</h1>
+        <p class="lead text-muted mb-0">Ask simple agriculture questions about crops, fertilizer, soil, disease, irrigation, and seasons.</p>
+      </div>
+      <form method="post" action="{% url 'chatbot:clear_chat' %}">
+        {% csrf_token %}
+        <button class="btn btn-outline-success" type="submit"><i class="bi bi-trash me-1"></i> Clear chat</button>
+      </form>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="card sprig-card p-0 overflow-hidden">
+          <div class="p-4 border-bottom bg-white">
+            <div class="d-flex align-items-center gap-3">
+              <span class="icon-tile"><i class="bi bi-chat-dots"></i></span>
+              <div>
+                <h2 class="h4 fw-bold mb-0">{{ conversation.title|default:"SprigAI Farmer Chat" }}</h2>
+                <p class="text-muted mb-0">SprigAI gives guidance, but official local advice comes first for chemicals and safety.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-window p-4">
+            {% for message in chat_messages %}
+              <div class="chat-row {% if message.sender == 'user' %}chat-row-user{% else %}chat-row-assistant{% endif %}">
+                <div class="chat-bubble {% if message.sender == 'user' %}chat-bubble-user{% else %}chat-bubble-assistant{% endif %}">
+                  <div class="small fw-bold mb-1">{{ message.get_sender_display }}</div>
+                  <div>{{ message.message|linebreaksbr }}</div>
+                  <div class="small opacity-75 mt-2">{{ message.created_at|date:"M d, H:i" }}</div>
+                </div>
+              </div>
+            {% empty %}
+              <div class="text-center text-muted py-5">
+                <i class="bi bi-seedling fs-1 d-block mb-3"></i>
+                Ask your first farming question to start a conversation.
+              </div>
+            {% endfor %}
+          </div>
+
+          <form class="p-4 border-top bg-white" method="post" novalidate data-loading-form>
+            {% csrf_token %}
+            <label class="form-label" for="{{ form.message.id_for_label }}">Your question</label>
+            {{ form.message }}
+            {% for error in form.message.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            {% if form.non_field_errors %}<div class="alert alert-danger mt-3">{{ form.non_field_errors }}</div>{% endif %}
+            <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+              <button class="btn btn-success btn-lg" type="submit" data-loading-button><i class="bi bi-send me-1"></i> Ask SprigAI</button>
+              <span class="text-muted">Typing indicator appears while SprigAI prepares a reply.</span>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card sprig-card p-4 mb-4">
+          <h2 class="h5 fw-bold">Good questions to ask</h2>
+          <div class="d-grid gap-2">
+            <span class="badge text-bg-light text-start p-3">Which crop suits my district this season?</span>
+            <span class="badge text-bg-light text-start p-3">How should I improve sandy soil?</span>
+            <span class="badge text-bg-light text-start p-3">What should I do if rice leaves show spots?</span>
+            <span class="badge text-bg-light text-start p-3">How often should I irrigate in dry weather?</span>
+          </div>
+        </div>
+        <div class="card sprig-card p-4">
+          <h2 class="h5 fw-bold">Recent conversations</h2>
+          {% for item in conversations %}
+            <div class="border-bottom py-2">
+              <strong>{{ item.title|default:"SprigAI Farmer Chat" }}</strong>
+              <div class="small text-muted">{{ item.updated_at|date:"M d, H:i" }}</div>
+            </div>
+          {% empty %}
+            <p class="text-muted mb-0">No previous conversations yet.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

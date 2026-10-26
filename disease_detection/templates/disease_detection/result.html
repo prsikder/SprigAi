@@ -1,0 +1,47 @@
+{% extends "core/base.html" %}
+{% block title %}Disease Detection Result &mdash; {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="sprig-section">
+  <div class="container" style="max-width: 780px;">
+    <div class="row g-4">
+      <div class="col-md-5">
+        <div class="sprig-card"><div class="card-body p-0">
+          <img src="{{ record.image.url }}" class="img-fluid rounded" style="width:100%; border-radius: var(--sprig-radius);">
+        </div></div>
+      </div>
+      <div class="col-md-7">
+        <div class="result-hero h-100">
+          <span class="badge-soft-gold mb-2">{% if is_healthy %}Healthy{% else %}Detected Condition{% endif %}</span>
+          <h2 class="text-white mb-2">{{ record.predicted_disease|cut:"_"|default:record.predicted_disease }}</h2>
+          <p class="small mb-1" style="color:rgba(255,255,255,0.85);">Confidence</p>
+          <div class="confidence-bar mb-1"><div class="fill" style="width:{{ record.confidence }}%;"></div></div>
+          <p class="mb-0">{{ record.confidence }}%</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sprig-card mt-4"><div class="card-body">
+      <h6 class="text-muted small text-uppercase mb-2">Advisory</h6>
+      <p class="mb-0">{{ advisory }}</p>
+    </div></div>
+
+    {% if record.top_predictions|length > 1 %}
+    <div class="sprig-card mt-4"><div class="card-body">
+      <h6 class="text-muted small text-uppercase mb-3">Top Predictions</h6>
+      {% for p in record.top_predictions %}
+        <div class="d-flex justify-content-between small mb-1">
+          <span>{{ p.label }}</span><span>{{ p.confidence }}%</span>
+        </div>
+        <div class="confidence-bar mb-3"><div class="fill" style="width:{{ p.confidence }}%;"></div></div>
+      {% endfor %}
+    </div></div>
+    {% endif %}
+
+    <div class="d-flex flex-wrap gap-3 mt-4">
+      <a href="{% url 'disease_detection:form' %}" class="btn btn-sprig-primary"><i class="bi bi-arrow-repeat me-1"></i> New Detection</a>
+      <a href="{% url 'disease_detection:history' %}" class="btn btn-sprig-outline"><i class="bi bi-clock-history me-1"></i> View History</a>
+      <button onclick="window.print()" class="btn btn-sprig-outline"><i class="bi bi-printer me-1"></i> Print</button>
+    </div>
+  </div>
+</section>
+{% endblock %}

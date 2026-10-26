@@ -1,0 +1,100 @@
+{% load static %}
+<header class="sprig-header{% if nav_mode == 'hero' %} sprig-header-hero{% else %} sprig-header-solid{% endif %}" id="sprigHeader">
+  {% if nav_mode == 'hero' %}
+  <div class="sprig-topbar">
+    <div class="container">
+      <div class="sprig-topbar-inner">
+        <ul class="sprig-topbar-contact list-unstyled mb-0">
+          <li>
+            <a href="mailto:{{ CONTACT_EMAIL }}">
+              <i class="bi bi-envelope-fill" aria-hidden="true"></i>
+              <span>{{ CONTACT_EMAIL }}</span>
+            </a>
+          </li>
+          <li>
+            <a href="tel:{{ CONTACT_PHONE_TEL }}">
+              <i class="bi bi-telephone-fill" aria-hidden="true"></i>
+              <span>{{ CONTACT_PHONE }}</span>
+            </a>
+          </li>
+        </ul>
+        <ul class="sprig-topbar-social list-unstyled mb-0">
+          <li>
+            <a href="{{ SOCIAL_LINKEDIN }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <i class="bi bi-linkedin" aria-hidden="true"></i>
+            </a>
+          </li>
+          <li>
+            <a href="{{ SOCIAL_FACEBOOK }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <i class="bi bi-facebook" aria-hidden="true"></i>
+            </a>
+          </li>
+          <li>
+            <a href="{{ SOCIAL_TWITTER }}" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+              <i class="bi bi-twitter-x" aria-hidden="true"></i>
+            </a>
+          </li>
+          <li>
+            <a href="{{ SOCIAL_YOUTUBE }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+              <i class="bi bi-youtube" aria-hidden="true"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <nav class="navbar navbar-expand-lg sprig-navbar{% if nav_mode == 'hero' %} sprig-navbar-hero{% endif %}">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'core:landing' %}">
+        <img src="{% static 'core/img/sprigai-icon-white.png' %}" alt="" class="brand-icon" width="32" height="32" decoding="async">
+        <span class="brand-copy">
+          <span class="brand-text">SprigAI</span>
+          {% if nav_mode == 'hero' %}<span class="brand-tagline">Smart Crop Guardian</span>{% endif %}
+        </span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav mx-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="{% url 'core:landing' %}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'core:features' %}">Features</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'core:about' %}">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'core:faq' %}">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'contact:contact' %}">Contact</a></li>
+        </ul>
+        <ul class="navbar-nav align-items-lg-center">
+          {% if user.is_authenticated %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'dashboard:home' %}"><i class="bi bi-speedometer2 me-1"></i>Dashboard</a></li>
+            {% if user.is_staff %}
+              <li class="nav-item"><a class="nav-link" href="{% url 'dashboard:admin_home' %}"><i class="bi bi-shield-lock me-1"></i>Admin</a></li>
+            {% endif %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                <i class="bi bi-person-circle me-1"></i>{{ user.first_name|default:user.username }}
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">Profile</a></li>
+                <li><a class="dropdown-item" href="{% url 'accounts:password_change' %}">Change Password</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                  <form action="{% url 'accounts:logout' %}" method="post" class="m-0">
+                    {% csrf_token %}
+                    <button type="submit" class="dropdown-item text-danger">Logout</button>
+                  </form>
+                </li>
+              </ul>
+            </li>
+          {% else %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'accounts:login' %}">Login</a></li>
+            <li class="nav-item ms-lg-2">
+              <a class="btn btn-sprig-nav-cta btn-sm" href="{% url 'contact:contact' %}">Get in Touch</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

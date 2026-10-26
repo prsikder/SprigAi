@@ -1,0 +1,128 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Farmer AI Chatbot &mdash; {{ SITE_NAME }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'chatbot/css/chat.css' %}">
+{% endblock %}
+
+{% block body_attrs %} class="sprig-chat-body"{% endblock %}
+
+{% block content %}
+<section class="sprig-chat-page">
+  <div class="container">
+    <div class="sprig-chat-shell">
+
+      <header class="sprig-chat-header">
+        <div class="sprig-chat-header-info">
+          <div class="sprig-chat-avatar" aria-hidden="true">
+            <i class="bi bi-flower1"></i>
+          </div>
+          <div class="sprig-chat-title-wrap">
+            <h1>SprigAI Farmer Assistant</h1>
+            <div class="sprig-chat-status">
+              <span class="sprig-chat-status-dot{% if not chatbot_ready %} offline{% endif %}"></span>
+              {% if chatbot_ready %}
+                Online &mdash; Powered by Gemini
+              {% else %}
+                Offline &mdash; API key not configured
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <form method="post" action="{% url 'chatbot:clear_chat' %}" onsubmit="return confirm('Clear this conversation?');">
+          {% csrf_token %}
+          <button type="submit" class="sprig-chat-clear-btn">
+            <i class="bi bi-trash3"></i>
+            <span class="label ms-1">Clear</span>
+          </button>
+        </form>
+      </header>
+
+      <div class="sprig-chat-messages" id="chatMessages">
+
+        {% if not chat_messages %}
+        <div class="sprig-chat-welcome" id="welcomeBlock">
+          <div class="sprig-chat-welcome-icon">
+            <i class="bi bi-chat-heart"></i>
+          </div>
+          <h2>Hello, farmer!</h2>
+          <p>
+            I'm your SprigAI agriculture assistant for Bangladesh.
+            Ask me about crops, fertilizer, soil, plant diseases, irrigation, and seasons.
+          </p>
+          <div class="sprig-chat-suggestions">
+            <button type="button" class="sprig-chat-suggestion" data-prompt="What crops grow best in Bangladesh monsoon season?">
+              <i class="bi bi-cloud-rain me-1"></i> Monsoon crops
+            </button>
+            <button type="button" class="sprig-chat-suggestion" data-prompt="How do I identify and treat common rice leaf diseases?">
+              <i class="bi bi-bug me-1"></i> Rice diseases
+            </button>
+            <button type="button" class="sprig-chat-suggestion" data-prompt="When and how should I apply fertilizer to wheat?">
+              <i class="bi bi-droplet me-1"></i> Fertilizer tips
+            </button>
+            <button type="button" class="sprig-chat-suggestion" data-prompt="What soil type is best for growing mango in Bangladesh?">
+              <i class="bi bi-moisture me-1"></i> Soil &amp; mango
+            </button>
+          </div>
+        </div>
+        {% endif %}
+
+        {% for m in chat_messages %}
+        <div class="sprig-chat-row {% if m.sender == 'user' %}user{% else %}bot{% endif %}">
+          <div class="sprig-chat-row-avatar" aria-hidden="true">
+            {% if m.sender == 'user' %}
+              <i class="bi bi-person-fill"></i>
+            {% else %}
+              <i class="bi bi-flower1"></i>
+            {% endif %}
+          </div>
+          <div class="sprig-chat-bubble-wrap">
+            <div class="sprig-chat-bubble">{{ m.content|linebreaksbr }}</div>
+            <span class="sprig-chat-time">{{ m.created_at|date:"g:i A" }}</span>
+          </div>
+        </div>
+        {% endfor %}
+
+        <div class="sprig-chat-typing d-none" id="typingRow">
+          <div class="sprig-chat-row-avatar" aria-hidden="true">
+            <i class="bi bi-flower1"></i>
+          </div>
+          <div class="sprig-chat-typing-bubble" aria-label="Assistant is typing">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="sprig-chat-input-area">
+        <form id="chatForm" data-send-url="{% url 'chatbot:send_message' %}">
+          {% csrf_token %}
+          <div class="sprig-chat-input-wrap">
+            <textarea
+              id="chatInput"
+              class="sprig-chat-input"
+              rows="1"
+              placeholder="Ask about crops, soil, fertilizer, disease, irrigation..."
+              maxlength="2000"
+              autocomplete="off"
+              required
+            ></textarea>
+            <button type="submit" class="sprig-chat-send-btn" id="sendBtn" aria-label="Send message">
+              <i class="bi bi-send-fill"></i>
+            </button>
+          </div>
+        </form>
+        <p class="sprig-chat-disclaimer">
+          SprigAI supports but does not replace expert agricultural advice.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'chatbot/js/chat.js' %}"></script>
+{% endblock %}

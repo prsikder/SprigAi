@@ -1,0 +1,49 @@
+{% extends "core/base.html" %}
+{% block title %}Crop Recommendation Result &mdash; {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="sprig-section">
+  <div class="container" style="max-width: 780px;">
+    <div class="result-hero mb-4">
+      <span class="badge-soft-gold mb-2">Recommended Crop</span>
+      <h1 class="text-white mb-1">{{ record.predicted_crop }}</h1>
+      <p class="mb-0" style="color:rgba(255,255,255,0.85);">Based on your {{ record.district }} district input for {{ record.season }} season.</p>
+      {% if record.used_fallback %}
+        <div class="alert alert-warning mt-3 mb-0 py-2 small">Some inputs were matched to the closest known category by our safety system.</div>
+      {% endif %}
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="sprig-card"><div class="card-body">
+          <h6 class="text-muted small text-uppercase">Harvest Window</h6>
+          <p class="fs-5 mb-0">{{ record.predicted_harvest|default:"Not available" }}</p>
+        </div></div>
+      </div>
+      <div class="col-md-6">
+        <div class="sprig-card"><div class="card-body">
+          <h6 class="text-muted small text-uppercase">Expected Production</h6>
+          <p class="fs-5 mb-0">{% if record.production %}{{ record.production }}{% else %}Not available{% endif %}</p>
+        </div></div>
+      </div>
+      <div class="col-md-6">
+        <div class="sprig-card"><div class="card-body">
+          <h6 class="text-muted small text-uppercase">Suitable Avg Temperature</h6>
+          <p class="fs-5 mb-0">{% if record.suitable_temperature %}{{ record.suitable_temperature }} °C{% else %}Not available{% endif %}</p>
+        </div></div>
+      </div>
+      <div class="col-md-6">
+        <div class="sprig-card"><div class="card-body">
+          <h6 class="text-muted small text-uppercase">Suitable Avg Humidity</h6>
+          <p class="fs-5 mb-0">{% if record.suitable_humidity %}{{ record.suitable_humidity }} %{% else %}Not available{% endif %}</p>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-3 mt-4">
+      <a href="{% url 'crop_recommendation:form' %}" class="btn btn-sprig-primary"><i class="bi bi-arrow-repeat me-1"></i> New Prediction</a>
+      <a href="{% url 'crop_recommendation:history' %}" class="btn btn-sprig-outline"><i class="bi bi-clock-history me-1"></i> View History</a>
+      <button onclick="window.print()" class="btn btn-sprig-outline"><i class="bi bi-printer me-1"></i> Print</button>
+    </div>
+  </div>
+</section>
+{% endblock %}

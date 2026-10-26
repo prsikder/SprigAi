@@ -1,0 +1,72 @@
+{% extends "core/base.html" %}
+{% load widget_tweaks %}
+{% block title %}Fertilizer Recommendation &mdash; {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="sprig-section">
+  <div class="container" style="max-width: 820px;">
+    <div class="text-center mb-4">
+      <span class="section-label">AI Module</span>
+      <h1 class="mt-2"><i class="bi bi-droplet-half me-2" style="color:var(--sprig-leaf);"></i>Fertilizer Recommendation</h1>
+      <p class="text-muted">NPK values are optional &mdash; leave them blank if you don't know them.</p>
+      <a href="{% url 'fertilizer_recommendation:history' %}" class="small">View my fertilizer history <i class="bi bi-clock-history"></i></a>
+    </div>
+
+    <div class="sprig-form-card">
+      <form method="post" novalidate data-loading="Analyzing soil & crop...">
+        {% csrf_token %}
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label class="form-label">Soil Type</label>
+            {{ form.soil_type|add_class:"form-select" }}
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Soil pH</label>
+            {{ form.soil_ph|add_class:"form-control" }}
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Temperature (°C)</label>
+            {{ form.temperature|add_class:"form-control" }}
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Nitrogen (N)</label>
+            {{ form.nitrogen_level|add_class:"form-control" }}
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Phosphorus (P)</label>
+            {{ form.phosphorus_level|add_class:"form-control" }}
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Potassium (K)</label>
+            {{ form.potassium_level|add_class:"form-control" }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Humidity (%)</label>
+            {{ form.humidity|add_class:"form-control" }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Crop Type</label>
+            {{ form.crop_type|add_class:"form-select" }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Crop Growth Stage</label>
+            {{ form.crop_growth_stage|add_class:"form-select" }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Season</label>
+            {{ form.season|add_class:"form-select" }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Irrigation Type</label>
+            {{ form.irrigation_type|add_class:"form-select" }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Previous Crop</label>
+            {{ form.previous_crop|add_class:"form-select" }}
+          </div>
+        </div>
+        <button type="submit" class="btn btn-sprig-primary w-100 mt-4"><i class="bi bi-magic me-1"></i> Get Recommendation</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

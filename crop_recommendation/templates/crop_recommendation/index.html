@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Crop Recommendation | SprigAI{% endblock %}
+
+{% block content %}
+<section class="section-pad">
+  <div class="container">
+    <div class="row g-4 align-items-start">
+      <div class="col-lg-5">
+        <p class="eyebrow">Crop Planning</p>
+        <h1 class="fw-bold display-5">Crop Recommendation</h1>
+        <p class="lead text-muted">Enter field and weather details to receive a crop recommendation with production and harvest guidance.</p>
+        <div class="card sprig-card p-4 mt-4">
+          <span class="icon-tile mb-3"><i class="bi bi-grid-3x3-gap"></i></span>
+          <h2 class="h4 fw-bold">How it works</h2>
+          <ol class="text-muted mb-0">
+            <li>Enter district, season, area, temperature, humidity, and growing time.</li>
+            <li>SprigAI evaluates the trained crop recommendation files.</li>
+            <li>The result is saved to your crop history automatically.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <form class="form-panel p-4" method="post" novalidate data-loading-form>
+          {% csrf_token %}
+          <h2 class="h4 fw-bold mb-4">Field details</h2>
+          <div class="row g-3">
+            {% for field in form %}
+              <div class="col-md-6">
+                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+                {% for error in field.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+              </div>
+            {% endfor %}
+          </div>
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger mt-3">{{ form.non_field_errors }}</div>
+          {% endif %}
+          <div class="d-flex flex-wrap gap-2 mt-4">
+            <button class="btn btn-success btn-lg" type="submit" data-loading-button>Recommend crop</button>
+            <a class="btn btn-outline-success btn-lg" href="{% url 'crop_recommendation:history' %}">View history</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

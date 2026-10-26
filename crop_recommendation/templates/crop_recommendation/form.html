@@ -1,0 +1,54 @@
+{% extends "core/base.html" %}
+{% load widget_tweaks %}
+{% block title %}Crop Recommendation &mdash; {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="sprig-section">
+  <div class="container" style="max-width: 780px;">
+    <div class="text-center mb-4">
+      <span class="section-label">AI Module</span>
+      <h1 class="mt-2"><i class="bi bi-flower2 me-2" style="color:var(--sprig-leaf);"></i>Crop Recommendation</h1>
+      <p class="text-muted">Tell us about your land and conditions to get the most suitable crop.</p>
+      <a href="{% url 'crop_recommendation:history' %}" class="small">View my crop history <i class="bi bi-clock-history"></i></a>
+    </div>
+
+    <div class="sprig-form-card">
+      <form method="post" novalidate data-loading="Analyzing your field...">
+        {% csrf_token %}
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Area</label>
+            {{ form.area|add_class:"form-control" }}
+            {% for e in form.area.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">District</label>
+            {{ form.district|add_class:"form-select" }}
+            {% for e in form.district.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Season</label>
+            {{ form.season|add_class:"form-select" }}
+            {% for e in form.season.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Growing Time</label>
+            {{ form.growing_time|add_class:"form-select" }}
+            {% for e in form.growing_time.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Current Temperature (°C)</label>
+            {{ form.current_temp|add_class:"form-control" }}
+            {% for e in form.current_temp.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Current Humidity (%)</label>
+            {{ form.current_humidity|add_class:"form-control" }}
+            {% for e in form.current_humidity.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+        </div>
+        <button type="submit" class="btn btn-sprig-primary w-100 mt-4"><i class="bi bi-magic me-1"></i> Get Recommendation</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

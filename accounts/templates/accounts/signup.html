@@ -1,0 +1,67 @@
+{% extends "core/base.html" %}
+{% load widget_tweaks %}
+{% block title %}Sign Up &mdash; {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="sprig-section">
+  <div class="container" style="max-width: 560px;">
+    <div class="text-center mb-4">
+      <span class="section-label">Join SprigAI</span>
+      <h1 class="mt-2">Create your free account</h1>
+      <p class="text-muted">Save your predictions and unlock all AI features.</p>
+    </div>
+    <div class="sprig-form-card">
+      {% if GOOGLE_OAUTH_ENABLED %}
+        {% include "accounts/partials/google_login_button.html" %}
+      {% endif %}
+      <form method="post" novalidate data-loading="Creating account...">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+        {% endif %}
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">First name</label>
+            {{ form.first_name|add_class:"form-control" }}
+            {% for e in form.first_name.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Last name</label>
+            {{ form.last_name|add_class:"form-control" }}
+          </div>
+          <div class="col-12">
+            <label class="form-label">Username</label>
+            {{ form.username|add_class:"form-control" }}
+            {% for e in form.username.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+          <div class="col-12">
+            <label class="form-label">Email</label>
+            {{ form.email|add_class:"form-control" }}
+            {% for e in form.email.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Phone (optional)</label>
+            {{ form.phone|add_class:"form-control" }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">District (optional)</label>
+            {{ form.district|add_class:"form-select" }}
+          </div>
+          <div class="col-12">
+            <label class="form-label">Password</label>
+            {{ form.password1|add_class:"form-control" }}
+            {% for e in form.password1.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+            <div class="form-text">At least 8 characters, not too common, not fully numeric.</div>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Confirm password</label>
+            {{ form.password2|add_class:"form-control" }}
+            {% for e in form.password2.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+        </div>
+        <button type="submit" class="btn btn-sprig-primary w-100 mt-4">Create Account</button>
+      </form>
+      <p class="text-center small text-muted mt-3 mb-0">Already have an account? <a href="{% url 'accounts:login' %}">Log in</a></p>
+    </div>
+  </div>
+</section>
+{% endblock %}

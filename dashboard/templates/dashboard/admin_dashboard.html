@@ -1,0 +1,103 @@
+{% extends "core/base.html" %}
+{% block title %}Admin Dashboard &mdash; {{ SITE_NAME }}{% endblock %}
+{% block content %}
+<section class="sprig-section">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+      <div>
+        <span class="section-label">Administration</span>
+        <h1 class="mt-2 mb-0">Admin Dashboard</h1>
+      </div>
+      <div class="d-flex gap-2">
+        <a href="{% url 'dashboard:admin_users' %}" class="btn btn-sprig-outline btn-sm"><i class="bi bi-people me-1"></i>Users</a>
+        <a href="{% url 'dashboard:admin_contacts' %}" class="btn btn-sprig-outline btn-sm"><i class="bi bi-envelope me-1"></i>Messages</a>
+        <a href="/admin/" class="btn btn-sprig-primary btn-sm"><i class="bi bi-gear me-1"></i>Django Admin</a>
+      </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-md-2"><div class="stat-card"><div class="stat-number">{{ total_users }}</div><div class="stat-label">Users</div></div></div>
+      <div class="col-6 col-md-2"><div class="stat-card"><div class="stat-number">{{ total_crop }}</div><div class="stat-label">Crop</div></div></div>
+      <div class="col-6 col-md-2"><div class="stat-card"><div class="stat-number">{{ total_fert }}</div><div class="stat-label">Fertilizer</div></div></div>
+      <div class="col-6 col-md-2"><div class="stat-card"><div class="stat-number">{{ total_disease }}</div><div class="stat-label">Disease</div></div></div>
+      <div class="col-6 col-md-2"><div class="stat-card"><div class="stat-number">{{ total_soil }}</div><div class="stat-label">Soil</div></div></div>
+      <div class="col-6 col-md-2"><div class="stat-card"><div class="stat-number">{{ total_contact }}</div><div class="stat-label">Messages</div></div></div>
+    </div>
+
+    <div class="row g-4 mb-5">
+      <div class="col-md-6">
+        <div class="sprig-card"><div class="card-body">
+          <h6 class="text-muted small text-uppercase mb-3">Module Usage</h6>
+          <canvas id="usageChart" height="180"></canvas>
+        </div></div>
+      </div>
+      <div class="col-md-6">
+        <div class="sprig-card"><div class="card-body">
+          <h6 class="text-muted small text-uppercase mb-3">Recent Contact Messages</h6>
+          {% for c in recent_contacts %}
+            <div class="d-flex justify-content-between border-bottom py-2 small">
+              <div><strong>{{ c.name }}</strong> &mdash; {{ c.subject }}</div>
+              <span class="badge-soft-green">{{ c.get_status_display }}</span>
+            </div>
+          {% empty %}
+            <p class="text-muted small mb-0">No messages yet.</p>
+          {% endfor %}
+        </div></div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="sprig-card"><div class="card-body">
+          <h6 class="text-muted small text-uppercase mb-3">Recent Crop Predictions</h6>
+          <table class="table table-sm mb-0 small">
+            {% for r in recent_crop %}<tr><td>{{ r.user }}</td><td>{{ r.predicted_crop }}</td><td>{{ r.created_at|date:"d M H:i" }}</td></tr>{% empty %}<tr><td class="text-muted">None yet</td></tr>{% endfor %}
+          </table>
+        </div></div>
+      </div>
+      <div class="col-md-6">
+        <div class="sprig-card"><div class="card-body">
+          <h6 class="text-muted small text-uppercase mb-3">Recent Fertilizer Predictions</h6>
+          <table class="table table-sm mb-0 small">
+            {% for r in recent_fert %}<tr><td>{{ r.user }}</td><td>{{ r.recommended_fertilizer }}</td><td>{{ r.created_at|date:"d M H:i" }}</td></tr>{% empty %}<tr><td class="text-muted">None yet</td></tr>{% endfor %}
+          </table>
+        </div></div>
+      </div>
+      <div class="col-md-6">
+        <div class="sprig-card"><div class="card-body">
+          <h6 class="text-muted small text-uppercase mb-3">Recent Disease Detections</h6>
+          <table class="table table-sm mb-0 small">
+            {% for r in recent_disease %}<tr><td>{{ r.user }}</td><td>{{ r.predicted_disease }}</td><td>{{ r.created_at|date:"d M H:i" }}</td></tr>{% empty %}<tr><td class="text-muted">None yet</td></tr>{% endfor %}
+          </table>
+        </div></div>
+      </div>
+      <div class="col-md-6">
+        <div class="sprig-card"><div class="card-body">
+          <h6 class="text-muted small text-uppercase mb-3">Recent Soil Classifications</h6>
+          <table class="table table-sm mb-0 small">
+            {% for r in recent_soil %}<tr><td>{{ r.user }}</td><td>{{ r.predicted_soil }}</td><td>{{ r.created_at|date:"d M H:i" }}</td></tr>{% empty %}<tr><td class="text-muted">None yet</td></tr>{% endfor %}
+          </table>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script>
+  new Chart(document.getElementById('usageChart'), {
+    type: 'bar',
+    data: {
+      labels: {{ chart_labels|safe }},
+      datasets: [{
+        label: 'Predictions',
+        data: {{ chart_values|safe }},
+        backgroundColor: ['#40916C', '#E8A33D', '#1B4332', '#6B4226'],
+        borderRadius: 8,
+      }]
+    },
+    options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+</script>
+{% endblock %}

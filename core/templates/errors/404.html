@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Page Not Found | SprigAI{% endblock %}
+
+{% block content %}
+<main class="error-page">
+  <section class="error-panel" aria-labelledby="error-title">
+    <p class="error-code">404</p>
+    <h1 class="error-title" id="error-title">Page not found</h1>
+    <p class="error-text">
+      The page you requested does not exist or has moved. Return to the SprigAI home page.
+    </p>
+    <a class="btn btn-success" href="{% url 'core:home' %}">Go home</a>
+  </section>
+</main>
+{% endblock %}
